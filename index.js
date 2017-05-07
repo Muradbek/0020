@@ -15,9 +15,6 @@ app.get('/out', function(req, res){
   res.sendFile(__dirname + '/out.html');
 });
 
-app.get('/day21', function(req, res){
-  res.sendFile(__dirname + '/days/day21.html');
-});
 var users = {};
 io.on('connection', function(client) {
  
