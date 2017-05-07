@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="https://code.createjs.com/easeljs-0.8.0.min.js"> </script>
+    <script src="https://code.createjs.com/tweenjs-0.6.2.min.js"> </script>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"> </script>
+    <title>Canvas Animation</title>
+    <style>
+      #canvas {border: solid 1px black; background-color: lightblue;}
+    </style>
+  </head> 
+  <body>
+    <canvas id="canvas"></canvas><br>
+    <script >
+      var socket = io();
+          stage = new createjs.Stage("canvas");
+          canvas = document.querySelector('canvas');
+          canvas.width = window.innerWidth-50;
+          canvas.height = window.innerHeight-50;
+            var data = {
+              images: ["http://savepic.ru/13767000.png"],
+              frames: {width: 120, height: 120, count: 24}
+            };
+          var spriteSheet = new createjs.SpriteSheet(data);
+          var sprite = new createjs.Sprite(spriteSheet, 1);
+          stage.addChild(sprite);
+            sprite.x = canvas.width/2 -60;
+            sprite.y = canvas.height/2 -60;
+            createjs.Ticker.addEventListener("tick", onTickHandler);
+          function onTickHandler(evt) {   
+            stage.update();
+          };
+          window.addEventListener('resize', onResize, false);
+            onResize();
+            function onResize() {
+              canvas.width = window.innerWidth-50;
+              canvas.height = window.innerHeight-50;
+              sprite.x = canvas.width/2 -60;
+              sprite.y = canvas.height/2 -60;
+            };
+          socket.on('button clicked', function(value){
+            sprite.x += value;        
+          });
+    </script>
+  </body>
+</html>
